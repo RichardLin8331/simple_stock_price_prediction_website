@@ -1,0 +1,5 @@
+api_token: "***REMOVED***"
+network_setting:
+  stock_info_port: 19982
+PR_IP: "skai_pr"
+AE_IP: "skai_ae"
