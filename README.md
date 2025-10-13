@@ -1,4 +1,4 @@
-# skAIrocKet - Backend
+# Simple Stock Price Prediction Website
 ## Project Introduction
 ![system architecture](https://github.com/RichardLin8331/skairocket_backend/blob/main/readme_pictures/system_architecture.png?raw=true)
 + The main objective of this project is to develop a tool capable of predicting stocks with potential for rapid growth, and to provide a web UI for user interaction. Users can input the desired stock number into the web UI, and the website will display the predicted next-day stock price along with the confidence score for the prediction.   
