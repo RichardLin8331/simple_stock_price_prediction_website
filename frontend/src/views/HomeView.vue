@@ -1,6 +1,7 @@
 <template>
     <b-container fluid="sm" style = "max-width:90%">
-        <h1>skAIrocKet Home Page</h1>
+        <h1>Simple Stock Price Prediction Website </h1>
+        <h1> Home Page</h1>
         <b-row>
             <b-col>
                 <TrendList></TrendList>
@@ -9,7 +10,7 @@
                 <br>
                 <b-img src="@/assets/pictures/AIrocket.png" fluid-grow alt="Responsive image" style="max-width: 350px;"></b-img>
                 <p>
-                    Let skAIrocKet help you find stocks with high potential!
+                    Let Us help you find stocks with high potential!
                 </p>
             </b-col>
             <b-col>

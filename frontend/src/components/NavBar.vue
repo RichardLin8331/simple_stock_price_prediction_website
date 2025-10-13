@@ -1,7 +1,7 @@
 <template>
 <div>
   <b-navbar toggleable="md" type="light" class="my_navbar">
-    <b-navbar-brand href="/">skAIrocKet</b-navbar-brand>
+    <b-navbar-brand href="/">Stock Price Prediction</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
