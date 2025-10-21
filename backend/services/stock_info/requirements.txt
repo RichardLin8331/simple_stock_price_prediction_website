@@ -1,4 +1,5 @@
 FinMind
+tqdm
 Flask
 pandas
 numpy

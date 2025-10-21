@@ -12,8 +12,10 @@ services:
       MYSQL_TCP_PORT: 3306
     command: --init-file /data/application/init.sql
     volumes:
-        - ./services/databases/init.sql:/data/application/init.sql
+        - ../backend/services/databases/init.sql:/data/application/init.sql
     container_name: skai_sql
+    networks:
+      - skairocket_backend_default
 
   skAI_Mongo:
     image: mongo:latest
@@ -23,24 +25,34 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: disTrIbutedsEcurIty
     container_name: skai_mongo
+    networks:
+      - skairocket_backend_default
 
   skai_pr:
     image: tensorflow/serving
     ports: 
       - 127.0.0.1:18502:8501
     volumes:
-      - ./services/models/PredictionModel:/models/PredictionModel
+      - ../backend/services/models/PredictionModel:/models/PredictionModel
     environment:
       MODEL_NAME: PredictionModel
     container_name: skai_pr
+    networks:
+      - skairocket_backend_default
 
   skai_ae:
     image: tensorflow/serving
     ports: 
       - 127.0.0.1:18501:8501
     volumes:
-      - ./services/models/AutoEncoderModel:/models/AutoEncoderModel
+      - ../backend/services/models/AutoEncoderModel:/models/AutoEncoderModel
     environment:
       MODEL_NAME: AutoEncoderModel
     container_name: skai_ae
+    networks:
+      - skairocket_backend_default
 
+networks:
+  skairocket_backend_default:
+    name: skairocket_backend_default
+    external: true
