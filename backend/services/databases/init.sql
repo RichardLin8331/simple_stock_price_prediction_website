@@ -1,2 +1,2 @@
-CREATE DATABASE IF NOT EXISTS skai_sql;
-USE skai_sql;
+CREATE DATABASE IF NOT EXISTS `ssppw-sql`;
+USE `ssppw-sql`;

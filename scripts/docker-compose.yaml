@@ -1,34 +1,33 @@
-version: "3"
 
 services:
-  skai_sql:
+  ssppw-sql:
     image: mysql:latest
     ports: 
       - 127.0.0.1:18335:3306
     
     environment:
       MYSQL_ROOT_PASSWORD: deVeloPersecuRity
-      MYSQL_DB: skai_sql
+      MYSQL_DB: ssppw-sql
       MYSQL_TCP_PORT: 3306
     command: --init-file /data/application/init.sql
     volumes:
         - ../backend/services/databases/init.sql:/data/application/init.sql
-    container_name: skai_sql
+    container_name: ssppw-sql
     networks:
-      - skairocket_backend_default
+      - ssppw-default-network
 
-  skAI_Mongo:
+  ssppw-mongo:
     image: mongo:latest
     ports:
       - 127.0.0.1:18336:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: disTrIbutedsEcurIty
-    container_name: skai_mongo
+    container_name: ssppw-mongo
     networks:
-      - skairocket_backend_default
+      - ssppw-default-network
 
-  skai_pr:
+  ssppw-pr:
     image: tensorflow/serving
     ports: 
       - 127.0.0.1:18502:8501
@@ -36,11 +35,11 @@ services:
       - ../backend/services/models/PredictionModel:/models/PredictionModel
     environment:
       MODEL_NAME: PredictionModel
-    container_name: skai_pr
+    container_name: ssppw-pr
     networks:
-      - skairocket_backend_default
+      - ssppw-default-network
 
-  skai_ae:
+  ssppw-ae:
     image: tensorflow/serving
     ports: 
       - 127.0.0.1:18501:8501
@@ -48,11 +47,11 @@ services:
       - ../backend/services/models/AutoEncoderModel:/models/AutoEncoderModel
     environment:
       MODEL_NAME: AutoEncoderModel
-    container_name: skai_ae
+    container_name: ssppw-ae
     networks:
-      - skairocket_backend_default
+      - ssppw-default-network
 
 networks:
-  skairocket_backend_default:
-    name: skairocket_backend_default
+  ssppw-default-network:
+    name: ssppw-default-network
     external: true

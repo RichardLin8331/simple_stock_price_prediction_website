@@ -17,8 +17,8 @@ import (
 type GatewayModule struct {
 	JwtSecret         string
 	Network           string
-	SkAI_user_account string
-	SkAI_stock_center string
+	Ssppw_user_account string
+	Ssppw_stock_center string
 	jwt_secret_byte   []byte
 }
 
@@ -58,7 +58,7 @@ func (g *GatewayModule) UserCreate(c *gin.Context) {
 	}
 
 	user_JSON, _ := json.Marshal(user_info)
-	resp, _ := http.Post("http://"+g.SkAI_user_account+":8900"+"/UserCreate", "application/json", bytes.NewBuffer(user_JSON))
+	resp, _ := http.Post("http://"+g.Ssppw_user_account+":8900"+"/UserCreate", "application/json", bytes.NewBuffer(user_JSON))
 	body, _ := io.ReadAll(resp.Body)
 
 	if resp.StatusCode == 200 {
@@ -99,7 +99,7 @@ func (g *GatewayModule) UserLogin(c *gin.Context) {
 
 	login_JSON, _ := json.Marshal(login_content)
 
-	resp, err1 := http.Post("http://"+g.SkAI_user_account+":8900"+"/UserLogin", "application/json", bytes.NewBuffer(login_JSON))
+	resp, err1 := http.Post("http://"+g.Ssppw_user_account+":8900"+"/UserLogin", "application/json", bytes.NewBuffer(login_JSON))
 	if err1 != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
@@ -142,7 +142,7 @@ func (g *GatewayModule) AddFavorite(c *gin.Context) {
 		return
 	}
 	post_JSON, _ := json.Marshal(postcontent)
-	_, err1 := http.Post("http://"+g.SkAI_user_account+":8900"+"/AddFavorite", "application/json", bytes.NewBuffer(post_JSON))
+	_, err1 := http.Post("http://"+g.Ssppw_user_account+":8900"+"/AddFavorite", "application/json", bytes.NewBuffer(post_JSON))
 	if err1 == nil {
 		c.JSON(http.StatusOK, gin.H{"add_result": true})
 	}
@@ -159,7 +159,7 @@ func (g *GatewayModule) DeleteFavorite(c *gin.Context) {
 		return
 	}
 	post_JSON, _ := json.Marshal(postcontent)
-	_, err1 := http.Post("http://"+g.SkAI_user_account+":8900"+"/DeleteFavorite", "application/json", bytes.NewBuffer(post_JSON))
+	_, err1 := http.Post("http://"+g.Ssppw_user_account+":8900"+"/DeleteFavorite", "application/json", bytes.NewBuffer(post_JSON))
 	if err1 == nil {
 		c.JSON(http.StatusOK, gin.H{"delete_result": true})
 	}
@@ -175,7 +175,7 @@ func (g *GatewayModule) SearchStock(c *gin.Context) {
 		return
 	}
 	post_JSON, _ := json.Marshal(postcontent)
-	resp, err := http.Post("http://"+g.SkAI_stock_center+":8901"+"/SearchStock", "application/json", bytes.NewBuffer(post_JSON))
+	resp, err := http.Post("http://"+g.Ssppw_stock_center+":8901"+"/SearchStock", "application/json", bytes.NewBuffer(post_JSON))
 	if err != nil {
 		print(err.Error())
 	}
