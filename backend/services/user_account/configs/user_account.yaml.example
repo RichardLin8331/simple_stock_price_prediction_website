@@ -1,13 +1,13 @@
 DB_Info:
-  MySQL_Username: "root"
-  MySQL_Password: "deVeloPersecuRity"
+  MySQL_Username: ""
+  MySQL_Password: ""
   MySQL_Network:  "tcp"
   MySQL_IP: "ssppw-sql"
   MySQL_Port: 3306
   MySQL_Datbase:  "ssppw-sql"
   Mongo_IP: "ssppw-mongo"
   Mongo_port: ":27017"
-  Mongo_Username: "root"
-  Mongo_Password: "disTrIbutedsEcurIty"
+  Mongo_Username: ""
+  Mongo_Password: ""
 iscontainer: true
-jwt_secret: "mor0106vsc"
+JwtSecret: ""

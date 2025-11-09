@@ -7,3 +7,4 @@ numpyencoder
 scikit-learn
 joblib
 pyaml
+python-dotenv

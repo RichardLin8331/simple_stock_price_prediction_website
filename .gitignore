@@ -1,0 +1,5 @@
+backend/api_gateway/configs/gateway.yaml
+backend/services/stock_center/configs/stock_center.yaml
+backend/services/stock_info/configs/stock_info.yaml
+backend/services/user_account/configs/user_account.yaml
+scripts/.env

@@ -104,6 +104,7 @@ func (g *GatewayModule) UserLogin(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
+	// Add code to handle the response with http.StatusUnauthorized(401)
 
 	body, _ := io.ReadAll(resp.Body)
 	login_result := struct {

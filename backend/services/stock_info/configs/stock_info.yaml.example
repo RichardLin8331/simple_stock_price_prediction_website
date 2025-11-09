@@ -1,4 +1,4 @@
-api_token: "***REMOVED***"
+api_token: ""
 network_setting:
   stock_info_port: 19982
 PR_IP: "ssppw-pr"

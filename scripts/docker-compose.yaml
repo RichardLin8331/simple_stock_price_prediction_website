@@ -6,9 +6,9 @@ services:
       - 127.0.0.1:18335:3306
     
     environment:
-      MYSQL_ROOT_PASSWORD: deVeloPersecuRity
-      MYSQL_DB: ssppw-sql
-      MYSQL_TCP_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_TCP_PORT: ${MYSQL_TCP_PORT}
     command: --init-file /data/application/init.sql
     volumes:
         - ../backend/services/databases/init.sql:/data/application/init.sql
@@ -21,8 +21,8 @@ services:
     ports:
       - 127.0.0.1:18336:27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: disTrIbutedsEcurIty
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     container_name: ssppw-mongo
     networks:
       - ssppw-default-network
@@ -34,7 +34,7 @@ services:
     volumes:
       - ../backend/services/models/PredictionModel:/models/PredictionModel
     environment:
-      MODEL_NAME: PredictionModel
+      MODEL_NAME: ${Prediction_MODEL_NAME}
     container_name: ssppw-pr
     networks:
       - ssppw-default-network
@@ -46,7 +46,7 @@ services:
     volumes:
       - ../backend/services/models/AutoEncoderModel:/models/AutoEncoderModel
     environment:
-      MODEL_NAME: AutoEncoderModel
+      MODEL_NAME: ${AutoEncoder_MODEL_NAME}
     container_name: ssppw-ae
     networks:
       - ssppw-default-network

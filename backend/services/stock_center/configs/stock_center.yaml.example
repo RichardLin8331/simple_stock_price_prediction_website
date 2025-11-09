@@ -1,6 +1,6 @@
 MySQL_Info:
-  MySQL_Username: "root"
-  MySQL_Password: "deVeloPersecuRity"
+  MySQL_Username: ""
+  MySQL_Password: ""
   MySQL_Network:  "tcp"
   MySQL_IP: "ssppw-sql"
   MySQL_Port: 3306

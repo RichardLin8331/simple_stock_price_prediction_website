@@ -33,7 +33,7 @@ type db_info_struct struct {
 
 type UserAccountModule struct {
 	DB_Info                  db_info_struct
-	Jwt_secret               string
+	JwtSecret               string
 	jwt_secret_byte          []byte
 	user_account_DB          *gorm.DB
 	iscontainer              bool
@@ -71,12 +71,12 @@ func (ua *UserAccountModule) Init() {
 	vp.SetConfigType("yaml")
 	vp.ReadInConfig()
 	vp.Unmarshal(&ua)
-	ua.jwt_secret_byte = []byte(ua.Jwt_secret)
+	ua.jwt_secret_byte = []byte(ua.JwtSecret )
 	if !ua.iscontainer {
 		ua.DB_Info.MySQL_IP = "127.0.0.1"
 	}
 	dsn := fmt.Sprintf("%s:%s@%s(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", ua.DB_Info.MySQL_Username, ua.DB_Info.MySQL_Password, ua.DB_Info.MySQL_Network, ua.DB_Info.MySQL_IP, ua.DB_Info.MySQL_Port, ua.DB_Info.MySQL_Datbase)
-	print(dsn, " jwt ", ua.Jwt_secret, "\n")
+	print(dsn, " jwt ", ua.JwtSecret , "\n")
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Error occurs while gorm working, " + err.Error())
