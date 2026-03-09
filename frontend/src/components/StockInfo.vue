@@ -37,13 +37,23 @@ export default {
         }
     },
     methods: {
-        addfavoritebutton(event) {
-            event.preventDefault()
-            apiAddFavorite(this.$route.params.stocknum)
+        async addfavoritebutton(event) {
+            try {
+                event.preventDefault()
+                await apiAddFavorite(this.$route.params.stocknum)
+                this.$store.dispatch("addfavorite_act", this.$route.params.stocknum)
+            } catch (error) {
+                console.error(error)
+            }
         },
-        deletefavoritebutton(event) {
-            event.preventDefault()
-            apiDeleteFavorite(this.$route.params.stocknum)
+        async deletefavoritebutton(event) {
+            try {
+                event.preventDefault()
+                await apiDeleteFavorite(this.$route.params.stocknum)
+                this.$store.dispatch("deletefavorite_act", this.$route.params.stocknum)
+            } catch (error) {
+                console.error(error)
+            }
         },
         
     },
@@ -52,13 +62,8 @@ export default {
         .then(() => {
             this.items[0].predicted_price = localStorage.getItem('predicted_price')
             this.items[0].prediction_confidence = localStorage.getItem('prediction_confidence')
-        })
-        
-        
-        
+        })   
     }
-    
-    
 }
 </script>
 

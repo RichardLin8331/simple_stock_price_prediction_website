@@ -7,12 +7,13 @@ const basicRequest = axios.create(
 )
 basicRequest.defaults.withCredentials = true
 const apiSearchStock = async(stocknum) => {
-    await basicRequest.post('/search-stock', {'stocknum': stocknum})
-    .then((response) => {
-        localStorage.setItem('predicted_price', response.data.predicted_price)
-        localStorage.setItem('prediction_confidence', response.data.prediction_confidence)
-    })
-    
+  try {
+    const response = await basicRequest.post('/search-stock', {'stocknum': stocknum})
+    localStorage.setItem('predicted_price', response.data.predicted_price)
+    localStorage.setItem('prediction_confidence', response.data.prediction_confidence)
+  } catch (error) {
+    console.error(error)
+  }    
 }
 
 const user_stockRequest = axios.create(
@@ -81,14 +82,21 @@ user_stockRequest.interceptors.response.use(function (response) {
 
 
 const apiAddFavorite = async (stocknum) => {
-    await user_stockRequest.post('/add-favorite',{'username': store.getters.get_username, 'stocknum': [stocknum]})
-    store.dispatch("addfavorite_act", stocknum)
-    
+  try {
+    const response = await user_stockRequest.post('/add-favorite',{'username': store.getters.get_username, 'stocknum': [stocknum]})
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const apiDeleteFavorite = async (stocknum) => {
-    await user_stockRequest.post('/delete-favorite',{'username': store.getters.get_username, 'stocknum': [stocknum]})
-    store.dispatch("deletefavorite_act", stocknum)
+  try {
+    const response = await user_stockRequest.post('/delete-favorite',{'username': store.getters.get_username, 'stocknum': [stocknum]})
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 
