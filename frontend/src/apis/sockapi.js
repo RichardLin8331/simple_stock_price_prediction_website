@@ -35,50 +35,66 @@ user_stockRequest.interceptors.request.use (async function (config) {
 })
 
 // Refreshtoken reference: https://www.dotblogs.com.tw/wasichris/2020/10/25/223728
-user_stockRequest.interceptors.response.use(function (response) {
-    return response
-  }, function (error) {
-    if (error.response) {
-  
-      // server responded status code falls out of the range of 2xx
-      switch (error.response.status) {
-        case 400:
-          {
-            const { message } = error.response.data
-            alert(`${error.response.status}: ${message || '資料錯誤'}。`)
-          }
-  
-          break
-  
-        case 401:
-  
-          {
-            // 當不是 refresh token 作業發生 401 才需要更新 access token 並重發
-            // 如果是就略過此刷新 access token 作業，直接不處理(因為 catch 已經攔截處理更新失敗的情況了)
-            const refreshTokenUrl = 'http://localhost:8899/refresh'
-            if (error.config.url !== refreshTokenUrl) {
-              // 原始 request 資訊
-              const originalRequest = error.config
-  
-              // 依據 refresh_token 刷新 access_token 並重發 request
-              return basicRequest
-                .post('/refresh') // refresh_toke is attached in cookie
-                .then((response) => {
-                  // [更新 access_token 成功]
-  
-                  // 刷新 storage (其他呼叫 api 的地方都會從此處取得新 access_token)
-                  store.dispatch("accesstoken_act", response.data.accesstoken)
-  
-                  // 刷新原始 request 的 access_token
-                  originalRequest.headers.Authorization = 'Bearer ' + response.data.accesstoken
-  
-                  // 重送 request (with new access_token)
-                  return user_stockRequest(originalRequest)
-                })
-                
+user_stockRequest.interceptors.response.use(
+  // Category 1: Success (2xx) - just pass the response through
+  (response) => response,
+
+  // Category 2: Error (Outside 2xx)
+  async (error) => {
+    const { response, config: originalRequest } = error;
+
+    if (response) {
+      switch (response.status) {
+        case 400: {
+          const message = response.data?.message || 'Data error';
+          alert(`Error 400: ${message}`);
+          break;
+        }
+
+        case 401: {
+          /* Check if we are already trying to refresh the token. 
+            We check the URL to avoid an infinite loop if the /refresh call fails with a 401.
+          */
+          const isRefreshCall = originalRequest.url.includes('/refresh');
+
+          if (!isRefreshCall) {
+            try {
+              // 1. Attempt to get a new access token
+              // The refresh token is typically sent automatically via HttpOnly cookies
+              const { data } = await basicRequest.post('/refresh');
+
+              // 2. Save the new token in Vuex
+              const newToken = data.accesstoken;
+              store.dispatch("accesstoken_act", newToken);
+
+              // 3. Update the failed request's header and retry it
+              originalRequest.headers.Authorization = `Bearer ${newToken}`;
+              return user_stockRequest(originalRequest);
+              
+            } catch (refreshError) {
+              // 4. If refreshing the token fails (e.g., Refresh Token expired)
+              // Clear the store and kick the user to the login page
+              console.error('Refresh token expired or invalid');
+              store.dispatch("reset_act");
+              // router.push('/login'); // Optional: redirect to login
+              return Promise.reject(refreshError);
             }
           }
-}}})
+          break;
+        }
+        
+        default:
+          console.error(`Unhandled Server Error: ${response.status}`);
+      }
+    } else {
+      // Handle Network Errors (Server down, timeout, etc.)
+      console.error('Network Error or No Response from Server');
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 
 
 const apiAddFavorite = async (stocknum) => {
