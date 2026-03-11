@@ -5,6 +5,7 @@ services:
       - ssppw-default-network
     ports:
       - 8900:8900
+
     container_name: ssppw-user-account
 
   ssppw-stock-center:
@@ -19,6 +20,7 @@ services:
     image: ssppw-stock-info
     networks:
       - ssppw-default-network
+
     container_name: ssppw-stock-info
 
   ssppw-api-gateway:
@@ -30,6 +32,7 @@ services:
     links:
       - ssppw-user-account:ssppw-user-account
       - ssppw-stock-center:ssppw-stock-center
+    
     container_name: ssppw-api-gateway
 
   ssppw-frontend:
@@ -38,6 +41,8 @@ services:
       - 127.0.0.1:8080:8080
     networks:
       - ssppw-default-network
+    
+    
     container_name: ssppw-frontend
 
     
